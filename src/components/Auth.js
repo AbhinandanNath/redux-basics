@@ -1,19 +1,19 @@
 import classes from "./Auth.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authActions } from "../store/authSlice";
 
 const Auth = () => {
   const dispatch = useDispatch();
-  const authState = useSelector((state) => state.authReducer);
-  console.log(authActions);
-
-  const btnName = authState.isAuthenticated ? "Logout" : "Login";
 
   function handleSubmit(event) {
     event.preventDefault();
     const name = event.target.email.value;
     const password = event.target.password.value;
-    dispatch(btnName === "Login" ? authActions.login({name, password}) : authActions.logout({name : "", password: ""}));
+    if (name !== "" && password !== "") {
+      dispatch(authActions.login({ name, password }));
+    } else {
+      alert("Inavlid name and password");
+    }
   }
 
   return (
@@ -28,7 +28,7 @@ const Auth = () => {
             <label htmlFor="password">Password</label>
             <input type="password" id="password" />
           </div>
-          <button>{btnName}</button>
+          <button>Login</button>
         </form>
       </section>
     </main>
@@ -36,5 +36,3 @@ const Auth = () => {
 };
 
 export default Auth;
-
-
